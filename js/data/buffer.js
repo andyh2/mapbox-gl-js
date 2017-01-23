@@ -13,11 +13,12 @@ const AttributeType = {
 };
 
 /**
- * The `Buffer` class turns a `StructArray` into a WebGL buffer. Each member of the StructArray's
+ * The `MapBoxBuffer` class turns a `StructArray` into a WebGL MapBoxBuffer. Each member of the StructArray's
  * Struct type is converted to a WebGL atribute.
  * @private
  */
-class Buffer {
+
+class MapBoxBuffer {
     /**
      * @param {Object} array A serialized StructArray.
      * @param {Object} arrayType A serialized StructArrayType.
@@ -33,11 +34,11 @@ class Buffer {
     }
 
     static fromStructArray(array, type) {
-        return new Buffer(array.serialize(), array.constructor.serialize(), type);
+        return new MapBoxBuffer(array.serialize(), array.constructor.serialize(), type);
     }
 
     /**
-     * Bind this buffer to a WebGL context.
+     * Bind this.buffer to a WebGL context.
      * @param gl The WebGL context
      */
     bind(gl) {
@@ -49,7 +50,7 @@ class Buffer {
             gl.bindBuffer(type, this.buffer);
             gl.bufferData(type, this.arrayBuffer, gl.STATIC_DRAW);
 
-            // dump array buffer once it's bound to gl
+            // dump array MapBoxBuffer once it's bound to gl
             this.arrayBuffer = null;
         } else {
             gl.bindBuffer(type, this.buffer);
@@ -81,7 +82,7 @@ class Buffer {
     }
 
     /**
-     * Destroy the GL buffer bound to the given WebGL context
+     * Destroy the GL MapBoxBuffer bound to the given WebGL context
      * @param gl The WebGL context
      */
     destroy() {
@@ -96,9 +97,9 @@ class Buffer {
  * @private
  * @readonly
  */
-Buffer.BufferType = {
+MapBoxBuffer.BufferType = {
     VERTEX: 'ARRAY_BUFFER',
     ELEMENT: 'ELEMENT_ARRAY_BUFFER'
 };
 
-module.exports = Buffer;
+module.exports = MapBoxBuffer;
